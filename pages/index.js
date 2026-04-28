@@ -5,14 +5,14 @@ import * as XLSX from 'xlsx';
 
 export default function Home() {
   const [entries, setEntries] = useState([]);
-  const [formData, setFormData] = useState({
-    date: new Date().toISOString().split('T')[0],
-    description: '',
-    amount: '',
-    type: '지출',
-    businessCode: '949909',
-    withholding: false
-  });
+ const [formData, setFormData] = useState({
+  date: '2025-12-31',
+  description: '',
+  amount: '',
+  type: '지출',
+  businessCode: '743002',
+  withholding: false
+});
   const [uploadStatus, setUploadStatus] = useState('');
 
   // localStorage에서 데이터 불러오기
@@ -150,13 +150,15 @@ export default function Home() {
 
     setEntries([newEntry, ...entries]);
     
-    // 폼 초기화
-    setFormData({
-      ...formData,
-      description: '',
-      amount: '',
-      withholding: false
-    });
+    // 폼 초기화 (날짜, 유형, 업종코드는 유지)
+setFormData({
+  date: formData.date,
+  description: '',
+  amount: '',
+  type: formData.type,
+  businessCode: formData.businessCode,
+  withholding: false
+});
   };
 
   // 삭제
