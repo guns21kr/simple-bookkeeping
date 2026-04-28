@@ -32,21 +32,84 @@ export default function Home() {
   const classifyAccount = (description) => {
     const text = description.toLowerCase();
     
-    if (text.includes('식비') || text.includes('점심') || text.includes('저녁') || text.includes('회식')) return '복리후생비';
-    if (text.includes('노트북') || text.includes('컴퓨터') || text.includes('키보드') || text.includes('마우스')) return '소모품비';
-    if (text.includes('택시') || text.includes('기름') || text.includes('주차') || text.includes('통행료')) return '차량유지비';
-    if (text.includes('전화') || text.includes('인터넷') || text.includes('통신')) return '통신비';
-    if (text.includes('광고') || text.includes('홍보') || text.includes('마케팅')) return '광고선전비';
-    if (text.includes('월세') || text.includes('임대료') || text.includes('사무실')) return '임차료';
-    if (text.includes('급여') || text.includes('월급') || text.includes('인건비')) return '급여';
-    if (text.includes('매입') || text.includes('재료') || text.includes('원재료')) return '매입비용';
-    if (text.includes('전기') || text.includes('수도') || text.includes('가스')) return '수도광열비';
-    if (text.includes('보험')) return '보험료';
-    if (text.includes('접대') || text.includes('선물')) return '접대비';
-    if (text.includes('세금')) return '세금과공과';
-    if (text.includes('수리') || text.includes('수선')) return '수선비';
+    // 복리후생비
+    if (text.includes('식비') || text.includes('점심') || text.includes('저녁') || text.includes('회식') || 
+        text.includes('카페') || text.includes('커피') || text.includes('스타벅스') || text.includes('배달'))
+      return '복리후생비';
     
-    return '기타';
+    // 소모품비
+    if (text.includes('노트북') || text.includes('컴퓨터') || text.includes('키보드') || text.includes('마우스') ||
+        text.includes('사무용품') || text.includes('문구') || text.includes('필기'))
+      return '소모품비';
+    
+    // 차량유지비
+    if (text.includes('주유') || text.includes('기름') || text.includes('주차') || text.includes('통행료') ||
+        text.includes('세차') || text.includes('차량정비'))
+      return '차량유지비';
+    
+    // 여비교통비
+    if (text.includes('택시') || text.includes('버스') || text.includes('지하철') || text.includes('출장') ||
+        text.includes('ktx') || text.includes('우버') || text.includes('숙박') || text.includes('호텔'))
+      return '여비교통비';
+    
+    // 통신비
+    if (text.includes('전화') || text.includes('인터넷') || text.includes('통신') || text.includes('핸드폰') ||
+        text.includes('휴대폰') || text.includes('데이터'))
+      return '통신비';
+    
+    // 광고선전비
+    if (text.includes('광고') || text.includes('홍보') || text.includes('마케팅'))
+      return '광고선전비';
+    
+    // 임차료
+    if (text.includes('월세') || text.includes('임대료') || text.includes('사무실') || text.includes('렌트'))
+      return '임차료';
+    
+    // 급여
+    if (text.includes('급여') || text.includes('월급') || text.includes('인건비') || text.includes('알바'))
+      return '급여';
+    
+    // 상품매입
+    if (text.includes('매입') || text.includes('도매') || text.includes('구매'))
+      return '상품매입';
+    
+    // 원재료매입
+    if (text.includes('재료') || text.includes('원재료'))
+      return '원재료매입';
+    
+    // 수도광열비
+    if (text.includes('전기') || text.includes('수도') || text.includes('가스') || text.includes('난방'))
+      return '수도광열비';
+    
+    // 접대비
+    if (text.includes('접대') || text.includes('선물'))
+      return '접대비';
+    
+    // 수선비
+    if (text.includes('수리') || text.includes('수선'))
+      return '수선비';
+    
+    // 보험료
+    if (text.includes('보험'))
+      return '보험료';
+    
+    // 세금과공과
+    if (text.includes('세금') || text.includes('재산세') || text.includes('자동차세'))
+      return '세금과공과';
+    
+    // 지급수수료
+    if (text.includes('수수료') || text.includes('세무사') || text.includes('변호사') || text.includes('카드수수료'))
+      return '지급수수료';
+    
+    // 운반비
+    if (text.includes('택배') || text.includes('배송') || text.includes('운송') || text.includes('퀵'))
+      return '운반비';
+    
+    // 도서인쇄비
+    if (text.includes('책') || text.includes('도서') || text.includes('인쇄'))
+      return '도서인쇄비';
+    
+    return '잡비';
   };
 
   // 원천징수 계산
@@ -102,7 +165,39 @@ export default function Home() {
       setEntries(entries.filter(entry => entry.id !== id));
     }
   };
+// 계정과목 수정
+  const handleAccountChange = (id, newAccount) => {
+    setEntries(entries.map(entry => 
+      entry.id === id ? { ...entry, account: newAccount } : entry
+    ));
+  };
 
+  // 전체 계정과목 목록
+  const allAccounts = [
+    '복리후생비',
+    '소모품비',
+    '차량유지비',
+    '여비교통비',
+    '통신비',
+    '광고선전비',
+    '임차료',
+    '급여',
+    '상품매입',
+    '원재료매입',
+    '수도광열비',
+    '접대비',
+    '수선비',
+    '보험료',
+    '세금과공과',
+    '지급수수료',
+    '운반비',
+    '도서인쇄비',
+    '감가상각비',
+    '퇴직급여',
+    '4대보험',
+    '대손상각비',
+    '잡비'
+  ];
   // 엑셀 파일 업로드 처리
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -537,19 +632,25 @@ export default function Home() {
               <tbody>
                 {entries.map((entry, index) => (
                   <tr key={entry.id} style={{ borderBottom: index < entries.length - 1 ? '0.5px solid var(--color-border-tertiary)' : 'none' }}>
-                    <td style={{ padding: '12px 16px' }}>{entry.date}</td>
-                    <td style={{ padding: '12px 16px' }}>{entry.description}</td>
                     <td style={{ padding: '12px 16px' }}>
-                      <span style={{ 
-                        padding: '4px 8px', 
-                        borderRadius: '4px', 
-                        fontSize: '12px',
-                        background: 'var(--color-background-secondary)',
-                        color: 'var(--color-text-secondary)'
-                      }}>
-                        {entry.account}
-                      </span>
-                    </td>
+  <select
+    value={entry.account}
+    onChange={(e) => handleAccountChange(entry.id, e.target.value)}
+    style={{
+      padding: '4px 8px',
+      borderRadius: '4px',
+      fontSize: '12px',
+      background: 'var(--color-background-secondary)',
+      color: 'var(--color-text-secondary)',
+      border: '0.5px solid var(--color-border-tertiary)',
+      cursor: 'pointer'
+    }}
+  >
+    {allAccounts.map(account => (
+      <option key={account} value={account}>{account}</option>
+    ))}
+  </select>
+</td>
                     <td style={{ padding: '12px 16px', textAlign: 'right', fontWeight: '500' }}>
                       {entry.amount.toLocaleString()}원
                     </td>
