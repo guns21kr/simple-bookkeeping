@@ -364,17 +364,22 @@ export default function Home() {
               )}
             </div>
 
-            <div>
-              <label style={{ display: 'block', fontSize: '13px', color: 'var(--color-text-secondary)', marginBottom: '4px' }}>금액 (원)</label>
-              <input 
-                type="number" 
-                value={formData.amount}
-                onChange={(e) => setFormData({...formData, amount: e.target.value})}
-                placeholder="0"
-                style={{ width: '100%' }}
-                required
-              />
-            </div>
+          <div>
+  <label style={{ display: 'block', fontSize: '13px', color: 'var(--color-text-secondary)', marginBottom: '4px' }}>금액 (원)</label>
+  <input 
+    type="text" 
+    value={formData.amount ? parseInt(formData.amount.replace(/,/g, '')).toLocaleString() : ''}
+    onChange={(e) => {
+      const value = e.target.value.replace(/,/g, '');
+      if (value === '' || /^\d+$/.test(value)) {
+        setFormData({...formData, amount: value});
+      }
+    }}
+    placeholder="0"
+    style={{ width: '100%' }}
+    required
+  />
+</div>
           </div>
 
           {formData.type === '수입' && (
